@@ -1,0 +1,12 @@
+[package]
+name = "mastodon-sitemap"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+megalodon = { version = "0.13.2" }
+tokio = "1.37.0"
+sitewriter = "1.0.4"
+chrono = "0.4.37"
