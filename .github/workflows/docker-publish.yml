@@ -32,5 +32,5 @@ jobs:
           context: .
           file: Dockerfile
           push: true
-          tags: jrasanen/mastodon-sitemap:16
+          tags: jrasanen/mastodon-sitemap:latest
           platforms: linux/amd64,linux/arm64
