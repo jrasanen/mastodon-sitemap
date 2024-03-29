@@ -1,7 +1,7 @@
 use chrono::prelude::*;
-use megalodon::{entities, Megalodon};
 use megalodon::entities::Account;
 use megalodon::error::Error;
+use megalodon::{entities, Megalodon};
 use sitewriter::{ChangeFreq, Url, UrlEntry};
 use std::fs::File;
 use std::io::Write;
@@ -39,13 +39,7 @@ async fn fetch_tags(client: &Box<dyn Megalodon + Send + Sync>) -> Result<Vec<Url
     let public_timeline = client
         .get_public_timeline(Some(&get_public_timeline_opts))
         .await
-        .map_or_else(
-            |e| {
-                println!("Error: {:?}", e);
-                vec![]
-            },
-            |statuses| statuses.json(),
-        );
+        .map_or_else(|_e| vec![], |statuses| statuses.json());
 
     let mut tags = vec![];
 
@@ -78,7 +72,7 @@ async fn get_statuses(
     let account_statuses = client
         .get_account_statuses(account_id, None)
         .await
-        .map_or_else(|e| vec![], |statuses| statuses.json());
+        .map_or_else(|_e| vec![], |statuses| statuses.json());
 
     for status in account_statuses {
         if status.visibility == entities::StatusVisibility::Public && status.url.is_some() {
@@ -170,5 +164,8 @@ async fn main() {
         file.write_all(sitemap.as_bytes()).unwrap();
     }
 
-    println!("{} written", file_path.to_str().expect("Getting filepath went wrong"));
+    println!(
+        "{} written",
+        file_path.to_str().expect("Getting filepath went wrong")
+    );
 }
